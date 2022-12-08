@@ -1,83 +1,71 @@
-
 <html>
-    <head>
-        <script>
+<head>
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
 
+// Content Box
 var box = document.createElement('div');
 box.style.border = '1px solid white';
 box.style.margin = '1em';
 box.style.borderRadius = '2em';
-
 box.style.minHeight = '20em';
 box.style.background = 'white';
-
-
 document.body.appendChild(box);
 document.body.style.height = '100%';
 document.body.style.background = 'linear-gradient(to bottom, #001100, #006600)';
 
+// Heading
 var heading = document.createElement('h1');
 heading.innerHTML = 'Switch 1';
 heading.style.textAlign = 'center';
 heading.style.fontFamily = 'sans-serif';
 box.appendChild(heading);
 
-var button = document.createElement('button');
-button.innerHTML = 'On';
-button.style.width = '40%';
-button.style.height = '3em';
-button.style.margin = '0 auto';
-button.style.background = 'lightgreen';
-button.style.border = 'none';
-button.style.borderRadius = '0.5em';
-button.style.fontFamily = 'sans-serif';
-box.appendChild(button);
-
-button.addEventListener('click', function() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'switch.cgi?device=switch_1&state=on');
-  xhr.send();
-});
-
-var button2 = document.createElement('button');
-button2.innerHTML = 'Off';
-button2.style.width = '40%';
-button2.style.height = '3em';
-button2.style.margin = '0 auto';
-button2.style.background = '#e9e9e9';
-button2.style.border = 'none';
-button2.style.borderRadius = '0.5em';
-button2.style.fontFamily = 'sans-serif';
-box.appendChild(button2);
-
-button2.style.background = '#e9e9e9';
-
-button2.addEventListener('click', function() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'switch.cgi?device=switch_1&state=off');
-  xhr.send();
-});
-
 var buttonBox = document.createElement('div');
 buttonBox.style.textAlign = 'center';
 box.appendChild(buttonBox);
-buttonBox.appendChild(button);
-buttonBox.appendChild(button2);
 
-button.style.marginLeft = '0.5em';
-button2.style.marginLeft = '0.5em';
+// 2 Buttons
+function createBtn(action, color){
+    var button = document.createElement('button');
+    button.innerHTML = action;
+    button.style.width = '40%';
+    button.style.height = '3em';
+    button.style.margin = '0 auto';
+    button.style.background = color;
+    button.style.border = '1px solid ' + color;
+    button.style.height = '3em';
+    button.style.minHeight = '10%';
+    button.style.borderRadius = '0.5em';
+    button.style.fontFamily = 'sans-serif';
+    button.style.marginLeft = '0.5em';
+    button.style.marginRight = '0.5em';
+    buttonBox.appendChild(button);
 
-button.style.marginRight = '0.5em';
-button2.style.marginRight = '0.5em';
+    button.addEventListener('click', function() {
+      button.innerHTML = 'loading..';
+      button.style.background = 'white';
 
-button.style.height = '3em';
-button2.style.height = '3em';
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+           button.innerHTML = action;
+           button.style.background = color;
+        }
+       };
+      xhr.open('GET', 'switch.cgi?device=switch_1&state=' + action);
+      xhr.send();
+    });
+    }
+createBtn('on', 'lightgreen')
+createBtn('off', '#e9e9e9')
+
 });
-        </script>
-    </head>
-    <body style="margin: 0;">
+
+    </script>
+</head>
+<body style="margin: 0;">
 
 
-    </body>
+</body>
 </html>
