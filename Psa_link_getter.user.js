@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Psa_link_getter
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.8
 // @description  psa_link_getter
 // @author       You
 // @match        https://psa.pm/*
@@ -122,6 +122,7 @@
     }
 
     function sendInfo(){
+
         let part_name = document.querySelector('h4.entry-title').textContent.trim().replace(/[^a-zA-Z0-9-. ]/, '');
         let one_hour_ago = Math.floor(Date.now() / 1000) - 3600;
         let url = '';
@@ -130,7 +131,7 @@
             if(!key.startsWith('r_')) return;
             let title = key.split('_', 2)[1];
             let data = GM_getValue(key);
-            if(data.time < one_hour_ago){
+            if(!data || data.time < one_hour_ago){
                 GM_deleteValue(key);
                 return;
             }
