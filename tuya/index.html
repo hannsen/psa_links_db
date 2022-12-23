@@ -1,66 +1,71 @@
 <html>
 <head>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
 
 // Content Box
-var box = document.createElement('div');
-box.style.border = '1px solid white';
-box.style.margin = '1em';
-box.style.borderRadius = '2em';
-box.style.minHeight = '20em';
-box.style.background = 'white';
-document.body.appendChild(box);
-document.body.style.height = '100%';
-document.body.style.background = 'linear-gradient(to bottom, #001100, #006600)';
+        var box = document.createElement('div');
+        box.style.border = '1px solid white';
+        box.style.margin = '1em';
+        box.style.borderRadius = '2em';
+        box.style.minHeight = '20em';
+        box.style.background = 'white';
+        document.body.appendChild(box);
+        document.body.style.height = '100%';
+        document.body.style.background = 'linear-gradient(to bottom, #001100, #006600)';
 
-// Heading
-var heading = document.createElement('h1');
-heading.innerHTML = 'Switch 1';
-heading.style.textAlign = 'center';
-heading.style.fontFamily = 'sans-serif';
-box.appendChild(heading);
+        function createBtn(action, color, switchId, buttonBox) {
+          var button = document.createElement('button');
+          button.innerHTML = action;
+          button.style.width = '40%';
+          button.style.height = '3em';
+          button.style.margin = '0 auto';
+          button.style.background = color;
+          button.style.border = '1px solid ' + color;
+          button.style.height = '3em';
+          button.style.minHeight = '10%';
+          button.style.borderRadius = '0.5em';
+          button.style.fontFamily = 'sans-serif';
+          button.style.marginLeft = '0.5em';
+          button.style.marginRight = '0.5em';
+          buttonBox.appendChild(button);
 
-var buttonBox = document.createElement('div');
-buttonBox.style.textAlign = 'center';
-box.appendChild(buttonBox);
+          button.addEventListener('click', function () {
+            button.innerHTML = 'loading..';
+            button.style.background = 'white';
 
-// 2 Buttons
-function createBtn(action, color){
-    var button = document.createElement('button');
-    button.innerHTML = action;
-    button.style.width = '40%';
-    button.style.height = '3em';
-    button.style.margin = '0 auto';
-    button.style.background = color;
-    button.style.border = '1px solid ' + color;
-    button.style.height = '3em';
-    button.style.minHeight = '10%';
-    button.style.borderRadius = '0.5em';
-    button.style.fontFamily = 'sans-serif';
-    button.style.marginLeft = '0.5em';
-    button.style.marginRight = '0.5em';
-    buttonBox.appendChild(button);
-
-    button.addEventListener('click', function() {
-      button.innerHTML = 'loading..';
-      button.style.background = 'white';
-
-      var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-           button.innerHTML = action;
-           button.style.background = color;
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+              if (this.readyState == 4 && this.status == 200) {
+                button.innerHTML = action;
+                button.style.background = color;
+              }
+            };
+            xhr.open('GET', 'switch.cgi?device=' + switchId + '&state=' + action);
+            xhr.send();
+          });
         }
-       };
-      xhr.open('GET', 'switch.cgi?device=switch_1&state=' + action);
-      xhr.send();
-    });
-    }
-createBtn('on', 'lightgreen')
-createBtn('off', '#e9e9e9')
 
-});
+        function createSwitch(switchId) {
+          var heading = document.createElement('h1');
+          heading.innerHTML = switchId;
+          heading.style.textAlign = 'center';
+          heading.style.fontFamily = 'sans-serif';
+          box.appendChild(heading);
+
+          var buttonBox = document.createElement('div');
+          buttonBox.style.textAlign = 'center';
+          box.appendChild(buttonBox);
+
+          // 2 Buttons
+          createBtn('on', 'lightgreen', switchId, buttonBox)
+          createBtn('off', '#e9e9e9', switchId, buttonBox)
+        }
+
+        createSwitch('switch_1');
+        createSwitch('switch_2');
+
+      });
 
     </script>
 </head>
