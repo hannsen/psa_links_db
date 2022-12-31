@@ -15,7 +15,7 @@ switches = {
   'lamp_1': {
     'device_id': 'bf8e4bf6bcfde8de79me5s',
     'ip': '192.168.178.37',
-    'local_key': 'TODO',
+    'local_key': '06a50b5e35d0b06b',
   }
 }
 id = sys.argv[1]
