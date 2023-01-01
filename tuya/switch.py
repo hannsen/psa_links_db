@@ -7,18 +7,21 @@ switches = {
     'device_id': 'bf8de7a491ba5116efgtvy',
     'local_key': 'd283a19fc27105f7',
     'type': 'switch',
+    'version': 3.4,
   },
   'switch_2': {
     'ip': '192.168.178.20',
     'device_id': 'bff8da7da6949373e6ivbd',
     'local_key': 'ef9409c25efa2fd6',
     'type': 'switch',
+    'version': 3.4,
   },
   'lamp_1': {
     'ip': '192.168.178.37',
     'device_id': 'bf8e4bf6bcfde8de79me5s',
     'local_key': '06a50b5e35d0b06b',
     'type': 'lamp',
+    'version': 3.3,
   }
 }
 id = sys.argv[1]
@@ -29,7 +32,7 @@ if switches[id]['type'] == 'lamp':
 else:
   d = tinytuya.OutletDevice(switches[id]['device_id'], switches[id]['ip'], switches[id]['local_key'])
 
-d.set_version(3.4)
+d.set_version(switches[id]['version'])
 
 if state == 'on':
   d.turn_on()
