@@ -95,5 +95,5 @@ from .core import __author__
 
 from .OutletDevice import OutletDevice
 # from .CoverDevice import CoverDevice
-# from .BulbDevice import BulbDevice
+from .BulbDevice import BulbDevice
 # from .Cloud import Cloud
